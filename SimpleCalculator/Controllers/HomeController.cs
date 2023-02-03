@@ -23,30 +23,20 @@ namespace SimpleCalculator.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string expression)
+        public IActionResult Index(ExpressionModel model)
         {
-            var result = 0d;
-
             try
             {
-                result = this.expressionService.Evaluate(expression);
+                model.Result = this.expressionService.Evaluate(model.Expression);
             }
             catch (InvalidExpressionException ex)
             {
                 ModelState.AddModelError("expression", ex.Message);
-                return this.View();
             }
             catch (InvalidOperationException)
             {
                 ModelState.AddModelError("expression", ExpressionErrorMessages.InvalidExpression);
-                return this.View();
             }
-
-            var model = new ExpressionModel
-            {
-                Expression = expression,
-                Result = result
-            };
 
             return this.View(model);
         }

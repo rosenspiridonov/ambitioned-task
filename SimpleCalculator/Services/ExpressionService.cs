@@ -10,6 +10,13 @@ namespace SimpleCalculator.Services
     {
         public double Evaluate(string expression)
         {
+            expression = expression.Replace(" ", "");
+
+            if (!this.ValidateTokens(expression))
+            {
+                throw new InvalidExpressionException(ExpressionErrorMessages.InvalidTokens);
+            }
+
             var tokens = expression.ToCharArray();
 
             var numbers = new Stack<double>();
@@ -19,11 +26,6 @@ namespace SimpleCalculator.Services
 
             foreach (var token in tokens)
             {
-                if (token == ' ')
-                {
-                    continue;
-                }
-
                 if (char.IsDigit(token))
                 {
                     numberString.Append(token);
@@ -104,6 +106,13 @@ namespace SimpleCalculator.Services
             }
 
             return true;
+        }
+
+        private bool ValidateTokens(string expression)
+        {
+            var allowedCharacters = "0123456789+-*/()";
+
+            return !expression.Any(ch => !allowedCharacters.Contains(ch));
         }
     }
 }

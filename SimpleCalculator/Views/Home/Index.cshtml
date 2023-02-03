@@ -22,7 +22,7 @@
             @if (!ViewData.ModelState.IsValid)
             {
                 <div class="text-danger">
-                    @foreach (var error in ViewData.ModelState["expression"].Errors)
+                    @foreach (var error in ViewData.ModelState["expression"]?.Errors)
                     {
                         <span>@error.ErrorMessage</span>
                     }
