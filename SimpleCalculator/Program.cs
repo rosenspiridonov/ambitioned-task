@@ -1,6 +1,9 @@
+using SimpleCalculator.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMvc();
+builder.Services.AddTransient<IExpressionService, ExpressionService>();
 
 var app = builder.Build();
 
