@@ -10,7 +10,7 @@ namespace SimpleCalculator.Services
     {
         public double Evaluate(string expression)
         {
-            expression = expression.Replace(" ", "");
+            expression = expression.Replace(" ", String.Empty);
 
             if (!this.ValidateTokens(expression))
             {
