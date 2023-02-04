@@ -48,6 +48,11 @@ a.navbar-brand {
     line-height: 60px;
 }
 
+.errors {
+    display: flex;
+    flex-direction: column;
+}
+
 .calculator-wrapper {
     display: flex;
     justify-content: center;
@@ -79,24 +84,27 @@ a.navbar-brand {
                 box-shadow: 0 0 0 4px rgb(13 110 253 / 20%);
             }
 
-        .calculator .data .result {
+        .calculator .data .result-container {
             min-width: 100px;
+            display: flex;
+            column-gap: 0.4em;
+            align-items: flex-end;
         }
 
-            .calculator .data .result span {
-                margin-right: 0.4em;
+            .calculator .data .result-container .equals {
                 font-size: 18px;
             }
 
-    .calculator .controls .form-submit {
+    .calculator .controls .evaluate {
         background-color: #62BFED;
         color: #fff;
         border: none;
         padding: 0.35em 0.75em;
         border-radius: 6px;
         transition: background-color 250ms ease-in-out;
+        margin-right: 0.4em;
     }
 
-        .calculator .controls .form-submit:hover {
+        .calculator .controls .evaluate:hover {
             background-color: #047BB6;
         }
