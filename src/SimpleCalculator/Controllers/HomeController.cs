@@ -29,7 +29,7 @@ namespace SimpleCalculator.Controllers
                 Expression = expression,
             };
 
-            if (expression == null)
+            if (string.IsNullOrEmpty(expression))
             {
                 ModelState.AddModelError(ExpressionErrorKey, ExpressionErrorMessages.ExpressionEmpty);
                 return this.View(model);

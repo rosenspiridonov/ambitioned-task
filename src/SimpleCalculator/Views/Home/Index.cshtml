@@ -7,19 +7,24 @@
     <form method="post" asp-controller="Home" asp-action="Index" class="calculator">
         <div class="data">
             <input type="text" class="expression" id="expression" name="expression" value="@Model?.Expression" placeholder="Expression" />
-            <div class="result"><span>=</span>@(ViewData.ModelState.IsValid ? Model?.Result : string.Empty)</div>
+            <div class="result-container"><div class="equals">=</div><div class="result">@(ViewData.ModelState.IsValid ? Model?.Result : string.Empty)</div></div>
         </div>
-        @if (!ViewData.ModelState.IsValid)
-        {
-            <div class="text-danger">
+        <div class="errors text-danger">
+
+            @if (!ViewData.ModelState.IsValid)
+            {
                 @foreach (var error in ViewData.ModelState["expression"]?.Errors)
                 {
                     <span>@error.ErrorMessage</span>
                 }
-            </div>
-        }
+            }
+        </div>
         <div class="controls">
-            <input type="submit" class="form-submit" value="Evaluate" />
+            <input type="submit" class="evaluate" value="Evaluate" />
+            <label for="js-eval">
+                <input type="checkbox" id="js-eval" />
+                Front-end evaluation
+            </label>
         </div>
     </form>
 </div>
