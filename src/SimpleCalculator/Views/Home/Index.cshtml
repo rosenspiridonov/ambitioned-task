@@ -15,7 +15,7 @@
                     <span>=</span>
                 </div>
                 <div class="col-md-3">
-                    <input type="number" class="form-control" id="result" name="Result field" value="@Model?.Result" />
+                    <input type="number" class="form-control" id="result" name="Result field" value="@(ViewData.ModelState.IsValid ? Model?.Result : string.Empty)" />
                 </div>
             </div>
 

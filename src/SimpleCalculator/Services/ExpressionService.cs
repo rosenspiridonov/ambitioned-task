@@ -22,12 +22,18 @@ namespace SimpleCalculator.Services
             var numbers = new Stack<double>();
             var operators = new Stack<char>();
 
+            var prevToken = '\0';
             var numberString = new StringBuilder();
 
             foreach (var token in tokens)
             {
-                if (char.IsDigit(token))
+                if (char.IsDigit(token) || token == '.')
                 {
+                    if (prevToken == Operators.ClosingBracket)
+                    {
+                        operators.Push(Operators.Multiply);
+                    }
+
                     numberString.Append(token);
                 }
                 else
@@ -40,6 +46,11 @@ namespace SimpleCalculator.Services
 
                     if (token == Operators.OpeningBracket)
                     {
+                        if (char.IsDigit(prevToken))
+                        {
+                            operators.Push(Operators.Multiply);
+                        }
+
                         operators.Push(token);
                     }
                     else if (token == Operators.ClosingBracket)
@@ -61,6 +72,8 @@ namespace SimpleCalculator.Services
                         operators.Push(token);
                     }
                 }
+
+                prevToken = token;
             }
 
             if (numberString.Length > 0)
@@ -110,7 +123,7 @@ namespace SimpleCalculator.Services
 
         private bool ValidateTokens(string expression)
         {
-            var allowedCharacters = "0123456789+-*/()";
+            var allowedCharacters = "0123456789+-*/().";
 
             return !expression.Any(ch => !allowedCharacters.Contains(ch));
         }
