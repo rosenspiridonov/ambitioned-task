@@ -15,15 +15,15 @@ namespace SimpleCalculator.Tests
         [Fact]
         public void Evaluate_WithValidExpression_ShouldReturnCorrectResult()
         {
-            var expression = "2 + 3 + (4 + 5) * (6 - 2)";
-            var expectedResult = 41d;
-
-            var result = this.expressionService.Evaluate(expression);
-            Assert.Equal(expectedResult, result);
+            Assert.Equal(expected: 3.0, actual: this.expressionService.Evaluate("1 + 2"));
+            Assert.Equal(expected: 41.0, actual: this.expressionService.Evaluate("2 + 3 + (4 + 5) * (6 - 2)"));
+            Assert.Equal(expected: 14.0, actual: this.expressionService.Evaluate("2(4 + 3)"));
+            Assert.Equal(expected: 14.0, actual: this.expressionService.Evaluate("(4 + 3)2"));
+            Assert.Equal(expected: 5.0, actual: this.expressionService.Evaluate("2.5 * (4 / 2)"));
         }
 
         [Fact]
-        public void Evaluate_WhenGivenInvalidCharacters_ShouldThrowInvalidExpressionException()
+        public void Evaluate_WithInvalidCharacters_ShouldThrowInvalidExpressionException()
         {
             var expression = "5 + 4 a";
 
