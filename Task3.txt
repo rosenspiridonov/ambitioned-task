@@ -1,0 +1,14 @@
+Challenges:
+1. One of the main challenges may be the huge variety of expressions which have to be supported in the app.
+	Solution: We can use Factory method design pattern to resolve the issue and make the code easily scalable.
+
+2. Another challenge is the real-time collaboration with the application. 
+	Solution: It can be resolved by implementing websockets or something similar. 
+
+3. There also can be a problem when multiple users work on the same document. That could lead to conflicts with saving and displaying the data. 
+	Solution: We could use optimistic concurrency control. That way the document/sheet won't be locked and the users will be able to edit the content at the same time. 
+			It means that when a user saves their changes, the system checks if any conflicts appear with any of the other users interacting with the document. 
+			If a conflict is detected the system notifies the user and gives him the option to resolve it manually or automatically. If the user chooses the automatic option, an algorithm will handle the conflict.
+
+4. The data security is very crucial.
+	Solution: We could create different roles such as: Viewer, Commenter and Owner/Editor.
