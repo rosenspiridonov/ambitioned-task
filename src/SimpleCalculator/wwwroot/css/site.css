@@ -1,18 +1,102 @@
-html {
-  font-size: 14px;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+*,
+::before,
+::after {
+    margin: 0;
+    box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  html {
+html {
     font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: 'Montserrat';
 }
+
+a {
+    color: #0077cc;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+.calculator-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: 2em;
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5em;
+}
+
+    .calculator .data {
+        display: flex;
+        column-gap: 0.5em;
+        align-items: flex-end;
+    }
+
+        .calculator .data .expression {
+            min-width: 300px;
+            border: none;
+            border-bottom: 2px solid #666;
+            border-radius: 6px;
+            padding: 0.25em 0.5em;
+        }
+
+            .calculator .data .expression:focus-visible {
+                outline: 1px solid #00000020;
+                box-shadow: 0 0 0 4px rgb(13 110 253 / 20%);
+            }
+
+        .calculator .data .result {
+            min-width: 100px;
+        }
+
+            .calculator .data .result span {
+                margin-right: 0.4em;
+                font-size: 18px;
+            }
+
+    .calculator .controls .form-submit {
+        background-color: #62BFED;
+        color: #fff;
+        border: none;
+        padding: 0.35em 0.75em;
+        border-radius: 6px;
+        transition: background-color 250ms ease-in-out;
+    }
+
+        .calculator .controls .form-submit:hover {
+            background-color: #047BB6;
+        }
