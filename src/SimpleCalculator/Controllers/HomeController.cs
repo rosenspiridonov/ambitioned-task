@@ -17,13 +17,10 @@ namespace SimpleCalculator.Controllers
             this.expressionService = expressionService;
         }
 
-        public IActionResult Index()
-        {
-            return this.View();
-        }
+        public IActionResult Index() => this.View();
 
         [HttpPost]
-        public IActionResult Index(string expression)
+        public async Task<IActionResult> IndexAsync(string expression)
         {
             const string ExpressionErrorKey = "expression";
 
@@ -40,7 +37,7 @@ namespace SimpleCalculator.Controllers
 
             try
             {
-                model.Result = this.expressionService.Evaluate(expression);
+                model.Result = await this.expressionService.EvaluateAsync(expression);
             }
             catch (InvalidExpressionException ex)
             {

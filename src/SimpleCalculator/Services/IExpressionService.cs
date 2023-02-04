@@ -2,6 +2,6 @@
 {
     public interface IExpressionService
     {
-        double Evaluate(string expression);
+        Task<double> EvaluateAsync(string expression);
     }
 }

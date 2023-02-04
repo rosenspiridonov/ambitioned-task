@@ -2,7 +2,7 @@
 {
     public static class Constants
     {
-        public static class Operators
+        public static class Symbols
         {
             public const char Add = '+';
             public const char Subtract = '-';

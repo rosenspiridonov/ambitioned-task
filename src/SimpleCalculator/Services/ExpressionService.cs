@@ -1,6 +1,7 @@
 ﻿using System.Text;
 
 using SimpleCalculator.Common.Exceptions;
+using SimpleCalculator.Services.Calculator;
 
 using static SimpleCalculator.Common.Constants;
 
@@ -8,11 +9,13 @@ namespace SimpleCalculator.Services
 {
     public class ExpressionService : IExpressionService
     {
-        public double Evaluate(string expression)
-        {
-            expression = expression.Replace(" ", String.Empty);
+        public Task<double> EvaluateAsync(string expression) => Task.FromResult(this.Evaluate(expression));
 
-            if (!this.ValidateTokens(expression))
+        private double Evaluate(string expression)
+        {
+            expression = expression.Replace(" ", string.Empty);
+
+            if (!this.IsValid(expression))
             {
                 throw new InvalidExpressionException(ExpressionErrorMessages.InvalidTokens);
             }
@@ -29,9 +32,9 @@ namespace SimpleCalculator.Services
             {
                 if (char.IsDigit(token) || token == '.')
                 {
-                    if (prevToken == Operators.ClosingBracket)
+                    if (prevToken == Symbols.ClosingBracket)
                     {
-                        operators.Push(Operators.Multiply);
+                        operators.Push(Symbols.Multiply);
                     }
 
                     numberString.Append(token);
@@ -44,25 +47,28 @@ namespace SimpleCalculator.Services
                         numberString.Clear();
                     }
 
-                    if (token == Operators.OpeningBracket)
+                    if (token == Symbols.OpeningBracket)
                     {
                         if (char.IsDigit(prevToken))
                         {
-                            operators.Push(Operators.Multiply);
+                            operators.Push(Symbols.Multiply);
                         }
 
                         operators.Push(token);
                     }
-                    else if (token == Operators.ClosingBracket)
+                    else if (token == Symbols.ClosingBracket)
                     {
-                        while (operators.Peek() != Operators.OpeningBracket)
+                        while (operators.Peek() != Symbols.OpeningBracket)
                         {
                             numbers.Push(this.ApplyOperator(numbers, operators));
                         }
 
                         operators.Pop();
                     }
-                    else if (token == Operators.Add || token == Operators.Subtract || token == Operators.Multiply || token == Operators.Divide)
+                    else if (token == Symbols.Add || 
+                             token == Symbols.Subtract || 
+                             token == Symbols.Multiply || 
+                             token == Symbols.Divide)
                     {
                         while (operators.Any() && this.CanEvaluate(token, operators.Peek()))
                         {
@@ -94,26 +100,20 @@ namespace SimpleCalculator.Services
         {
             var num2 = numbers.Pop();
             var num1 = numbers.Pop();
-            var op = operators.Pop();
+            var op = OperatorFactory.GetOperator(operators.Pop());
 
-            return op switch
-            {
-                Operators.Add => num1 + num2,
-                Operators.Subtract => num1 - num2,
-                Operators.Multiply => num1 * num2,
-                Operators.Divide => num2 == 0 ? throw new InvalidExpressionException(ExpressionErrorMessages.DivisionByZero) : num1 / num2,
-                _ => throw new InvalidExpressionException(string.Format(ExpressionErrorMessages.InvalidOperator, op))
-            };
+            return op.Evaluate(num1, num2);
         }
 
         private bool CanEvaluate(char currOperator, char prevOperator)
         {
-            if (prevOperator == Operators.OpeningBracket || prevOperator == Operators.ClosingBracket)
+            if (prevOperator == Symbols.OpeningBracket)
             {
                 return false;
             }
 
-            if ((currOperator == Operators.Multiply || currOperator == Operators.Divide) && (prevOperator == Operators.Add || prevOperator == Operators.Subtract))
+            if ((currOperator == Symbols.Multiply || currOperator == Symbols.Divide) && 
+                (prevOperator == Symbols.Add || prevOperator == Symbols.Subtract))
             {
                 return false;
             }
@@ -121,7 +121,7 @@ namespace SimpleCalculator.Services
             return true;
         }
 
-        private bool ValidateTokens(string expression)
+        private bool IsValid(string expression)
         {
             var allowedCharacters = "0123456789+-*/().";
 
